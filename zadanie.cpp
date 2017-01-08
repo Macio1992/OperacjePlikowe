@@ -17,8 +17,7 @@
 
 using namespace std;
 
-void czytajTekstowoIDziesietnie(ifstream &plik);
-void czytaj(ifstream &plik);
+void czytaj(ifstream &, bool);
 void wypiszInstrukcje();
 
 int main(){
@@ -63,7 +62,7 @@ int main(){
                 if(!plik.is_open())
                     cout<<"Nie otworzono zadnego pliku."<<endl;
                 else
-                    czytaj(plik);
+                    czytaj(plik, false);
                 
                 break;
             }
@@ -72,7 +71,7 @@ int main(){
                 if(!plik.is_open())
                     cout<<"Nie otworzono zadnego pliku."<<endl;
                 else
-                    czytajTekstowoIDziesietnie(plik);
+                    czytaj(plik, true);
 
                 break;
             }
@@ -92,17 +91,7 @@ int main(){
     return 0;
 }
 
-void czytajTekstowoIDziesietnie(ifstream &plik){
-
-    char c;
-    while(plik >>noskipws >> c)
-        cout<<c<<": "<<(int)c<<endl;
-
-    plik.clear();
-    plik.seekg(0, ios::beg);
-}
-
-void czytaj(ifstream &plik){
+void czytaj(ifstream &plik, bool czyDziesietnie){
     system("cls");
     int i = 0, size = 0, koniec;
     char ch;
@@ -112,7 +101,10 @@ void czytaj(ifstream &plik){
 
     plik.seekg(0, ios::beg);
     while(plik >>noskipws >> ch && size < ILOSC_SLOW){
-        cout<<ch;
+        if(!czyDziesietnie)
+            cout<<ch;
+        else
+            cout<<ch<<": "<<(int)ch<<" ";
         size = plik.tellg();
         size /= sizeof(int);
         plik.clear();
@@ -133,7 +125,7 @@ void czytaj(ifstream &plik){
                 plik.clear();
                 int size2;
                 if(plik.tellg()/sizeof(int) == koniec){
-                    cout<<"Jest na koncu pliku"<<endl;
+                    cout<<"Jestes na koncu pliku"<<endl;
                     size = size2+ILOSC_SLOW;
                     size2 = (size2 - ILOSC_SLOW)+ILOSC_SLOW;
                     plik.seekg(size2*sizeof(int), ios::beg);
@@ -142,7 +134,10 @@ void czytaj(ifstream &plik){
                     plik.seekg(size*sizeof(int), ios::beg);
                     size2 = size+ILOSC_SLOW;
                     while(plik >>noskipws >> ch && size < size2){
-                        cout<<ch;
+                        if(!czyDziesietnie)
+                            cout<<ch;
+                        else
+                            cout<<ch<<": "<<(int)ch<<" ";
                         size = plik.tellg();
                         size /= sizeof(int);
                         plik.clear();
@@ -155,17 +150,32 @@ void czytaj(ifstream &plik){
             }
             case 'W':
             case 'w':{
+                int size2;
                 plik.clear();
                 if(plik.tellg()/sizeof(int) == ILOSC_SLOW){
-                    cout<<"jest na poczatku pliku"<<endl;
+                    cout<<"Jestes na poczatku pliku"<<endl;
                     plik.seekg(0, ios::beg);
+                    size = plik.tellg()/sizeof(int);
+                    while(plik >>noskipws >> ch && size < ILOSC_SLOW){
+                        if(!czyDziesietnie)
+                            cout<<ch;
+                        else
+                            cout<<ch<<": "<<(int)ch<<" ";
+                        size = plik.tellg();
+                        size /= sizeof(int);
+                        plik.clear();
+                    }
+                    cout<<endl;
                 } else {
                     size = size - 25;
-                    int size2 = size - 25;
+                    size2 = size - 25;
                     plik.seekg(size2*sizeof(int), ios::beg);
 
                     while(plik >>noskipws >> ch && size2 < size){
-                        cout<<ch;
+                        if(!czyDziesietnie)
+                            cout<<ch;
+                        else
+                            cout<<ch<<": "<<(int)ch<<" ";
                         size2 = plik.tellg();
                         size2 /= sizeof(int);
                         plik.clear();

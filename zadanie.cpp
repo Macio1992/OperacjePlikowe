@@ -34,9 +34,8 @@ int main(){
             case 'O':
             case 'o':{
                 if(!plik.is_open() && plik.good()){
-                    //cout<<"Podaj nazwe pliku:"<<endl;
-                    //cin >> nazwa;
-                    nazwa = "tekst2.txt";
+                    cout<<"Podaj nazwe pliku:"<<endl;
+                    cin >> nazwa;
                     plik.open(nazwa.c_str(), ios::binary);
                 } else 
                     cout<<"Otworzono plik poprawnie. Jak chcesz otworzyc inny wybierz opcje nr 2"<<endl;

@@ -36,7 +36,7 @@ int main(){
                 if(!plik.is_open() && plik.good()){
                     //cout<<"Podaj nazwe pliku:"<<endl;
                     //cin >> nazwa;
-                    nazwa = "tekst.txt";
+                    nazwa = "tekst2.txt";
                     plik.open(nazwa.c_str(), ios::binary);
                 } else 
                     cout<<"Otworzono plik poprawnie. Jak chcesz otworzyc inny wybierz opcje nr 2"<<endl;
@@ -121,7 +121,6 @@ void czytaj(ifstream &plik, bool czyDziesietnie){
         switch(c){
             case 'D':
             case 'd':{
-                
                 plik.clear();
                 int size2;
                 if(plik.tellg()/sizeof(int) == koniec){
@@ -129,7 +128,8 @@ void czytaj(ifstream &plik, bool czyDziesietnie){
                     size = size2+ILOSC_SLOW;
                     size2 = (size2 - ILOSC_SLOW)+ILOSC_SLOW;
                     plik.seekg(size2*sizeof(int), ios::beg);
-                } else {
+                }
+                 else {
                     size = plik.tellg()/sizeof(int);
                     plik.seekg(size*sizeof(int), ios::beg);
                     size2 = size+ILOSC_SLOW;
